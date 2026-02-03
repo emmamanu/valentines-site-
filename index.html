@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>For You 💖</title>
+  <title>Quick Question 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -14,15 +14,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
       color: #fff;
+      text-align: center;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       padding: 30px;
       border-radius: 20px;
       width: 420px;
+      height: 420px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       backdrop-filter: blur(6px);
       position: relative;
@@ -34,25 +35,61 @@
       margin-bottom: 15px;
     }
 
-    button {
+    /* 🐶 SHAKE ANIMATION */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake {
+      animation: shake 0.4s;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    .btn {
       padding: 12px 25px;
       font-size: 1rem;
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      background: #ff4d6d;
       color: white;
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      transition: left 0.2s, top 0.2s;
     }
 
-    #answer {
-      margin-top: 140px;
-      font-size: 1.3rem;
-      font-weight: bold;
+    #yesBtn {
+      background: #ff4d6d;
+      left: 50%;
+      top: 260px;
+      transform: translateX(-50%);
+      transition: left 0.15s, top 0.15s;
+    }
+
+    #noBtn {
+      background: #6c757d;
+      left: 50%;
+      bottom: 25px;
+      transform: translateX(-50%);
+    }
+
+    #sweetMessage {
       display: none;
+      margin-top: 15px;
+      font-size: 1.05rem;
+      background: rgba(0,0,0,0.25);
+      padding: 15px;
+      border-radius: 15px;
     }
   </style>
 </head>
@@ -60,41 +97,55 @@
 
   <div class="card" id="card">
 
-    <img src="meme.jpg" alt="valentine meme">
+    <!-- 🐶 DOG MEME -->
+    <img id="dog" src="dog-meme.png" alt="funny dog meme">
 
-    <h1>Hey 💕</h1>
-    <p>You make my days brighter and my smiles easier.</p>
-    <p>💌 Will you be my Valentine? 💌</p>
+    <h1>Quick question 💕</h1>
+    <p>Do you think we’d make a cute Valentine duo? 😌</p>
 
-    <button id="yesBtn">Yes 💖</button>
+    <button class="btn" id="yesBtn">Yes 💖</button>
+    <button class="btn" id="noBtn">No 🙃</button>
 
-    <div id="answer">Yay! 💕 You just made my day!</div>
+    <div id="sweetMessage">
+      
+      This dog is still cheering for me 🐶💪
+    </div>
   </div>
 
   <script>
-    const btn = document.getElementById("yesBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
     const card = document.getElementById("card");
+    const dog = document.getElementById("dog");
+    const sweetMessage = document.getElementById("sweetMessage");
 
-    let escapes = 0;
+    const taunts = [
+      "Too slow 😜",
+      "Almost 😏",
+      "Nice try 😂",
+      "Not today 😎",
+      "Gotta be faster!"
+    ];
 
-    btn.addEventListener("mouseenter", () => {
-      if (escapes < 5) {
-        const maxX = card.clientWidth - btn.offsetWidth;
-        const maxY = card.clientHeight - btn.offsetHeight;
+    // YES runs forever + taunts + dog shakes
+    yesBtn.addEventListener("mouseenter", () => {
+      const maxX = card.clientWidth - yesBtn.offsetWidth;
+      const maxY = card.clientHeight - yesBtn.offsetHeight;
 
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
+      yesBtn.style.left = Math.random() * maxX + "px";
+      yesBtn.style.top  = Math.random() * maxY + "px";
 
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
+      yesBtn.textContent = taunts[Math.floor(Math.random() * taunts.length)];
 
-        escapes++;
-      }
+      // trigger dog shake
+      dog.classList.remove("shake");
+      void dog.offsetWidth; // reset animation
+      dog.classList.add("shake");
     });
 
-    btn.addEventListener("click", () => {
-      btn.style.display = "none";
-      document.getElementById("answer").style.display = "block";
+    // NO shows funny message
+    noBtn.addEventListener("click", () => {
+      sweetMessage.style.display = "block";
     });
   </script>
 
