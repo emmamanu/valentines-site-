@@ -25,6 +25,7 @@
       max-width: 400px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       backdrop-filter: blur(6px);
+      position: relative;
     }
 
     h1 {
@@ -45,12 +46,8 @@
       cursor: pointer;
       background: #ff4d6d;
       color: white;
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    button:hover {
-      background: #ff2e55;
-      transform: scale(1.05);
+      position: relative;
+      transition: transform 0.2s;
     }
 
     #answer {
@@ -66,8 +63,8 @@
   <div class="card">
     <h1>Hey 💕</h1>
     <p>
-      I just wanted to say that you make my days brighter and my smiles easier.
-      I really enjoy talking to you, laughing with you, and being around you.
+      You make my days brighter and my smiles easier.
+      I really enjoy talking to you and being around you.
     </p>
 
     <p>
@@ -76,15 +73,28 @@
       💌 Will you be my Valentine? 💌
     </p>
 
-    <button onclick="sayYes()">Yes 💖</button>
+    <button id="yesBtn">Yes 💖</button>
 
     <div id="answer">Yay! 💕 You just made my day!</div>
   </div>
 
   <script>
-    function sayYes() {
+    const yesBtn = document.getElementById("yesBtn");
+    let moves = 0;
+
+    yesBtn.addEventListener("mouseover", () => {
+      if (moves < 4) {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        yesBtn.style.transform = `translate(${x}px, ${y}px)`;
+        moves++;
+      }
+    });
+
+    yesBtn.addEventListener("click", () => {
       document.getElementById("answer").style.display = "block";
-    }
+      yesBtn.style.display = "none";
+    });
   </script>
 
 </body>
